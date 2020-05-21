@@ -1,0 +1,13 @@
+###
+POST http://localhost:3333/api/checkin
+Content-Type: application/json
+X-Token: X0I4R2E3Y45YP000NENS05441BP3ST33EMHIOWPFRN20O5OD
+
+{
+  "venue_id" : "4ee7381fe5faffd73432e0d0",
+  "shout"    : "",
+  "latitude" : 31.2094909,
+  "longitude": 121.4828454,
+  "accuracy" : 15,
+  "altitude" : 80
+}
