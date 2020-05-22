@@ -36,5 +36,5 @@ func addCheckin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jr.Json200(w, result)
+	jr.Json201(w, result)
 }

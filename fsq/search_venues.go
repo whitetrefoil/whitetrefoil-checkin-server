@@ -15,8 +15,9 @@ type searchVenuesRes struct {
 			Id       string `json:"id"`
 			Name     string `json:"name"`
 			Location *struct {
-				Address  string  `json:"address"`
-				Distance float64 `json:"distance"`
+				Address          string    `json:"address"`
+				Distance         float64   `json:"distance"`
+				FormattedAddress [3]string `json:"formattedAddress"`
 			} `json:"location"`
 		} `json:"venues"`
 	} `json:"response"`
@@ -65,7 +66,7 @@ func SearchVenues(token string, lat float64, lon float64, acc float64, alt float
 		venues[i] = &Venue{
 			Id:       v.Id,
 			Name:     v.Name,
-			Address:  v.Location.Address,
+			Address:  v.Location.FormattedAddress[0],
 			Distance: v.Location.Distance,
 		}
 	}

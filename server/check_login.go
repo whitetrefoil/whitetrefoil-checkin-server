@@ -13,7 +13,8 @@ type checkLoginReqJson struct {
 }
 
 type checkLoginResJson struct {
-	Token string `json:"token"`
+	Token string                     `json:"token"`
+	User  *fsq.GetUserDetailResponse `json:"user"`
 }
 
 func checkLogin(w http.ResponseWriter, r *http.Request) {
@@ -28,11 +29,20 @@ func checkLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	cfg := r.Context().Value("cfg").(*Config)
 
-	res, err := fsq.AccessToken(cfg.AppId, cfg.AppSecret, cfg.Redirect, req.Code)
+	tokenRes, err := fsq.AccessToken(cfg.AppId, cfg.AppSecret, cfg.Redirect, req.Code)
 	if err != nil {
 		jr.Json400(w, err.Error())
 		return
 	}
 
-	jr.Json200(w, &checkLoginResJson{res.AccessToken})
+	userRes, err := fsq.GetUserDetail(tokenRes.AccessToken)
+	if err != nil {
+		jr.Json400(w, err.Error())
+		return
+	}
+
+	jr.Json200(w, &checkLoginResJson{
+		Token: tokenRes.AccessToken,
+		User:  userRes,
+	})
 }
