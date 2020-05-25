@@ -29,14 +29,14 @@ type addCheckinRes struct {
 }
 
 type AddCheckinResponse struct {
-	IsMayor bool           `json:"isMayor"`
+	IsMayor bool           `json:"is_mayor"`
 	Score   int            `json:"score"`
 	Reasons []*scoreDetail `json:"reasons"`
 	Url     string         `json:"url"`
 }
 
 func AddCheckin(token string, venueId string, shout string, lat float64, lon float64, acc float64, alt float64) (*AddCheckinResponse, error) {
-	u, _ := url.Parse("https://api.foursquare.com/v2/checkins/add?venueId=57a74220498e0c41fc96ecf7&ll=31.2094909,121.4828454&llAcc=13&alt=84")
+	u, _ := url.Parse("https://api.foursquare.com/v2/checkins/add")
 	q := u.Query()
 	q.Set("v", API_VERSION)
 	q.Set("oauth_token", token)
@@ -68,12 +68,10 @@ func AddCheckin(token string, venueId string, shout string, lat float64, lon flo
 		details[i] = detail
 	}
 
-	response := &AddCheckinResponse{
+	return &AddCheckinResponse{
 		IsMayor: res.Response.Checkin.IsMayor,
 		Score:   res.Response.Checkin.Score.Total,
 		Reasons: details,
 		Url:     res.Response.Checkin.CheckinShortUrl,
-	}
-
-	return response, nil
+	}, nil
 }
