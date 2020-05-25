@@ -52,6 +52,7 @@ func NewServer(port int, id string, sec string, red string) *http.Server {
 				next.ServeHTTP(w, r.WithContext(ctx))
 			})
 		}).Group(func(r chi.Router) {
+			r.Get("/users", getUserDetail)
 			r.Get("/venues", searchVenues)
 			r.Post("/checkin", addCheckin)
 		})
