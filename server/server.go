@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -16,7 +17,7 @@ type Config struct {
 	Redirect  string
 }
 
-func NewServer(id string, sec string, red string) *http.Server {
+func NewServer(port int, id string, sec string, red string) *http.Server {
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)
@@ -56,10 +57,10 @@ func NewServer(id string, sec string, red string) *http.Server {
 		})
 	})
 
-	log.Println("Started on :3333")
+	log.Printf("Started on :%d\n", port)
 
 	return &http.Server{
-		Addr:    ":3333",
+		Addr:    fmt.Sprintf(":%d", port),
 		Handler: r,
 	}
 }

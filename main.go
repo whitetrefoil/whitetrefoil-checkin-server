@@ -17,15 +17,16 @@ func main() {
 	id := flag.String("id", "", "4SQ's Client ID")
 	sec := flag.String("sec", "", "4SQ's Client Secret")
 	red := flag.String("red", "", "Redirect URI")
+	port := flag.Int("port", 3333, "Port to listen")
 
 	flag.Parse()
 
 	if *id == "" || *sec == "" || *red == "" {
-		log.Println("Usage: checkin -id=<client_id> -sec=<secret_id> -red=<redirect_uri>")
+		log.Println("Usage: checkin -port=<server_port=3333> -id=<client_id> -sec=<secret_id> -red=<redirect_uri>")
 		os.Exit(255)
 	}
 
-	srv := server.NewServer(*id, *sec, *red)
+	srv := server.NewServer(*port, *id, *sec, *red)
 
 	exited := make(chan error)
 	sigint := make(chan os.Signal)
