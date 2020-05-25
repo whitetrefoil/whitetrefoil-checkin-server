@@ -62,6 +62,12 @@ func GetUserDetail(token string) (*GetUserDetailResponse, error) {
 		ID:        res.Response.User.ID,
 		FirstName: res.Response.User.FirstName,
 		LastName:  res.Response.User.LastName,
-		Photo:     res.Response.User.Photo.Prefix + res.Response.User.Photo.Suffix,
+		Photo: &struct {
+			Prefix string `json:"prefix"`
+			Suffix string `json:"suffix"`
+		}{
+			Prefix: res.Response.User.Photo.Prefix,
+			Suffix: res.Response.User.Photo.Suffix,
+		},
 	}, nil
 }
