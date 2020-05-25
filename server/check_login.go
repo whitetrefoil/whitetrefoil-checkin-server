@@ -37,6 +37,10 @@ func checkLogin(w http.ResponseWriter, r *http.Request) {
 
 	userRes, err := fsq.GetUserDetail(tokenRes.AccessToken)
 	if err != nil {
+		if err, ok := err.(*fsq.ApiError); ok {
+			jr.Json(w, err.Code, err.Error())
+			return
+		}
 		jr.Json400(w, err.Error())
 		return
 	}

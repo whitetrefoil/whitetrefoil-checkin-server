@@ -32,6 +32,14 @@ func addCheckin(w http.ResponseWriter, r *http.Request) {
 
 	result, err := fsq.AddCheckin(token, req.VenueId, req.Shout, req.Latitude, req.Longitude, req.Accuracy, req.Altitude)
 	if err != nil {
+		if err, ok := err.(*fsq.ApiError); ok {
+			if err.IsAuthError() {
+				jr.Json401(w, err.Error())
+				return
+			}
+			jr.Json(w, err.Code, err.Error())
+			return
+		}
 		jr.Json400(w, err.Error())
 		return
 	}

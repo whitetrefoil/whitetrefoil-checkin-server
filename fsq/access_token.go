@@ -2,7 +2,6 @@ package fsq
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -34,7 +33,7 @@ func AccessToken(id string, secret string, redirect string, code string) (*ResJs
 		return nil, err
 	}
 	if resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("[4SQ %d]: %s", resp.StatusCode, res.Error)
+		return nil, &ApiError{resp.StatusCode, res.Error, ""}
 	}
 
 	return res, nil

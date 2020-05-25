@@ -36,7 +36,7 @@ func SearchVenues(token string, lat float64, lon float64, acc float64, alt float
 	u, _ := url.Parse("https://api.foursquare.com/v2/venues/search")
 	q := u.Query()
 	q.Set("oauth_token", token)
-	q.Set("v", API_VERSION)
+	q.Set("v", ApiVersion)
 	q.Set("intent", "checkin")
 	q.Set("ll", fmt.Sprintf("%f,%f", lat, lon))
 	q.Set("llAcc", fmt.Sprintf("%f", acc))
@@ -58,7 +58,7 @@ func SearchVenues(token string, lat float64, lon float64, acc float64, alt float
 		return nil, err
 	}
 	if resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("[4SQ %d]: %s - %s", resp.StatusCode, res.Meta.ErrorType, res.Meta.ErrorDetail)
+		return nil, &ApiError{resp.StatusCode, res.Meta.ErrorType, res.Meta.ErrorDetail}
 	}
 
 	venues := make([]*Venue, len(res.Response.Venues))

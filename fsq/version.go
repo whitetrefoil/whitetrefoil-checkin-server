@@ -1,3 +1,3 @@
 package fsq
 
-const API_VERSION string = "20200520"
+const ApiVersion string = "20200520"

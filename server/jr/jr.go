@@ -52,7 +52,7 @@ func Json400(w http.ResponseWriter, v interface{}) {
 }
 
 func Json401(w http.ResponseWriter, v interface{}) {
-	Json(w, http.StatusBadRequest, v)
+	Json(w, http.StatusUnauthorized, v)
 }
 
 func Json404(w http.ResponseWriter, v interface{}) {

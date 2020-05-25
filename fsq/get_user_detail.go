@@ -2,7 +2,6 @@ package fsq
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -40,7 +39,7 @@ type GetUserDetailResponse struct {
 func GetUserDetail(token string) (*GetUserDetailResponse, error) {
 	u, _ := url.Parse("https://api.foursquare.com/v2/users/self")
 	q := u.Query()
-	q.Set("v", API_VERSION)
+	q.Set("v", ApiVersion)
 	q.Set("oauth_token", token)
 	u.RawQuery = q.Encode()
 
@@ -55,7 +54,7 @@ func GetUserDetail(token string) (*GetUserDetailResponse, error) {
 		return nil, err
 	}
 	if resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("[4SQ %d]: %s - %s", resp.StatusCode, res.Meta.ErrorType, res.Meta.ErrorDetail)
+		return nil, &ApiError{resp.StatusCode, res.Meta.ErrorType, res.Meta.ErrorDetail}
 	}
 
 	return &GetUserDetailResponse{
